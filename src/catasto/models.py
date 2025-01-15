@@ -1,3 +1,5 @@
+from functools import cached_property
+
 from django.db import models
 
 
@@ -10,6 +12,9 @@ class TipoCostruzione(models.Model):
         verbose_name = "Tipo Costruzione"
         verbose_name_plural = "Tipi Costruzione"
 
+    def __str__(self):
+        return self.nome
+
 
 class Fascicolo(models.Model):
     foglio = models.CharField(max_length=20)
@@ -17,30 +22,36 @@ class Fascicolo(models.Model):
     tipo = models.ForeignKey(TipoCostruzione, on_delete=models.CASCADE, blank=True, null=True)
     indirizzo = models.CharField(max_length=100, blank=True, null=True)
     costruttore = models.CharField(max_length=100, blank=True, null=True)
-    pratiche = models.ManyToManyField('Pratica', related_name='fascicoli')
-    documenti = models.ManyToManyField('Documento', related_name='fascicoli')
+    pratiche = models.ManyToManyField('Pratica', related_name='fascicoli', blank=True)
+    documenti = models.ManyToManyField('Documento', related_name='fascicoli', blank=True)
     note = models.TextField(blank=True, null=True)
 
     class Meta:
         verbose_name = "Fascicolo"
         verbose_name_plural = "Fascicoli"
 
+    def __str__(self):
+        return f"Foglio: {self.foglio} - Particella: {self.particella}"
+
 
 class Subalterno(models.Model):
     fascicolo = models.ForeignKey(Fascicolo, on_delete=models.CASCADE)
     sub = models.CharField(max_length=20)
-    pratiche = models.ManyToManyField('Pratica', related_name='subalterni')
-    documenti = models.ManyToManyField('Documento', related_name='subalterni')
+    pratiche = models.ManyToManyField('Pratica', related_name='subalterni', blank=True)
+    documenti = models.ManyToManyField('Documento', related_name='subalterni', blank=True)
     note = models.TextField(blank=True, null=True)
 
     class Meta:
         verbose_name = "Subalterno"
         verbose_name_plural = "Subalterni"
 
+    def __str__(self):
+        return f"{self.fascicolo} - Sub: {self.sub}"
+
 
 class Pratica(models.Model):
 
-    documenti = models.ManyToManyField('Documento', related_name='pratiche')
+    documenti = models.ManyToManyField('Documento', related_name='pratiche', blank=True)
     note = models.TextField(blank=True, null=True)
 
     class Meta:
@@ -57,6 +68,9 @@ class TipoDocumento(models.Model):
         verbose_name = "Tipo Documento"
         verbose_name_plural = "Tipi Documento"
 
+    def __str__(self):
+        return self.nome
+
 
 def directory_path(instance, filename):
     return filename
@@ -69,11 +83,23 @@ class Documento(models.Model):
     numero = models.IntegerField(blank=True, null=True)
     numero_progressivo = models.IntegerField(blank=True, null=True)
     data = models.DateField(blank=True, null=True)
+    approvato = models.BooleanField(default=False)
     data_approvazione = models.DateField(blank=True, null=True)
     numero_protocollo = models.CharField(max_length=10, blank=True, null=True)
     numero_protocollo_generale = models.CharField(max_length=10, blank=True, null=True)
     numero_protocollo_settore = models.CharField(max_length=10, blank=True, null=True)
+    note = models.TextField(max_length=1000, blank=True, null=True)
+    trascrizione = models.TextField(max_length=10000, blank=True, null=True)
+    richiedente = models.CharField(max_length=100, blank=True, null=True)
+    destinatario = models.CharField(max_length=100, blank=True, null=True)
 
     class Meta:
         verbose_name = "Documento"
         verbose_name_plural = "Documenti"
+
+    @cached_property
+    def pratica(self):
+        return self.pratiche.first()
+
+    def __str__(self):
+        return str(self.tipo)
