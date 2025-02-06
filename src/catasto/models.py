@@ -22,8 +22,6 @@ class Fascicolo(models.Model):
     tipo = models.ForeignKey(TipoCostruzione, on_delete=models.CASCADE, blank=True, null=True)
     indirizzo = models.CharField(max_length=100, blank=True, null=True)
     costruttore = models.CharField(max_length=100, blank=True, null=True)
-    pratiche = models.ManyToManyField('Pratica', related_name='fascicoli', blank=True)
-    documenti = models.ManyToManyField('Documento', related_name='fascicoli', blank=True)
     note = models.TextField(blank=True, null=True)
 
     class Meta:
@@ -37,8 +35,6 @@ class Fascicolo(models.Model):
 class Subalterno(models.Model):
     fascicolo = models.ForeignKey(Fascicolo, on_delete=models.CASCADE)
     sub = models.CharField(max_length=20)
-    pratiche = models.ManyToManyField('Pratica', related_name='subalterni', blank=True)
-    documenti = models.ManyToManyField('Documento', related_name='subalterni', blank=True)
     note = models.TextField(blank=True, null=True)
 
     class Meta:
@@ -50,8 +46,8 @@ class Subalterno(models.Model):
 
 
 class Pratica(models.Model):
-
-    documenti = models.ManyToManyField('Documento', related_name='pratiche', blank=True)
+    fascicolo = models.ForeignKey(Fascicolo, on_delete=models.CASCADE, related_name='pratiche')
+    subalterno = models.ForeignKey(Subalterno, on_delete=models.CASCADE, null=True, blank=True, related_name='pratiche')
     note = models.TextField(blank=True, null=True)
 
     class Meta:
@@ -92,6 +88,9 @@ class Documento(models.Model):
     trascrizione = models.TextField(max_length=10000, blank=True, null=True)
     richiedente = models.CharField(max_length=100, blank=True, null=True)
     destinatario = models.CharField(max_length=100, blank=True, null=True)
+    pratiche = models.ManyToManyField(Pratica, blank=True, related_name='documenti')
+    subalterni = models.ManyToManyField(Subalterno, blank=True, related_name='documenti')
+    fascicolo = models.ManyToManyField(Fascicolo, blank=True, related_name='documenti')
 
     class Meta:
         verbose_name = "Documento"
