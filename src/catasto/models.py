@@ -54,6 +54,10 @@ class Pratica(models.Model):
         verbose_name = "Pratica"
         verbose_name_plural = "Pratiche"
 
+    def __str__(self):
+        sub_info = f" - Sub: {self.subalterno.sub}" if self.subalterno else ""
+        return f"{self.fascicolo}{sub_info}"
+
 
 class TipoDocumento(models.Model):
 
@@ -69,7 +73,18 @@ class TipoDocumento(models.Model):
 
 
 def directory_path(instance, filename):
-    return filename
+    """
+    Create a structured path for file uploads based on document type and date.
+    """
+    # Get the document type code or use 'misc' if not available
+    tipo_code = getattr(instance.tipo, 'codice', 'misc') if instance.tipo else 'misc'
+
+    # Use the current date for organizing files
+    from datetime import datetime
+    date_path = datetime.now().strftime('%Y/%m/%d')
+
+    # Return a structured path: tipo_code/year/month/day/filename
+    return f"{tipo_code}/{date_path}/{filename}"
 
 
 class Documento(models.Model):
@@ -90,7 +105,7 @@ class Documento(models.Model):
     destinatario = models.CharField(max_length=100, blank=True, null=True)
     pratiche = models.ManyToManyField(Pratica, blank=True, related_name='documenti')
     subalterni = models.ManyToManyField(Subalterno, blank=True, related_name='documenti')
-    fascicolo = models.ManyToManyField(Fascicolo, blank=True, related_name='documenti')
+    fascicoli = models.ManyToManyField(Fascicolo, blank=True, related_name='documenti')
 
     class Meta:
         verbose_name = "Documento"

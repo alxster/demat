@@ -6,3 +6,9 @@
 .idea/*
 !.gitignore
 /.idea/.gitignore
+
+# Django e dati sensibili
+*.pem
+*.key
+/static/
+/media/

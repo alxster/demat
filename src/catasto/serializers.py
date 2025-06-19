@@ -36,3 +36,6 @@ class DocumentoSerializer(serializers.ModelSerializer):
     class Meta:
         model = Documento
         fields = "__all__"
+        extra_kwargs = {
+            'file': {'required': False, 'allow_null': True},
+        }

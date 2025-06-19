@@ -14,7 +14,7 @@ class TestTipoCostruzioneViewSet:
 
     def test_create_tipo_costruzione(self, client):
         """Test per la creazione di un TipoCostruzione."""
-        url = reverse('tipo-costruzione-list')
+        url = reverse('tipocostruzione-list')
         data = {"codice": "TC02", "nome": "Costruzione Industriale"}
         response = client.post(url, data, format='json')
 
@@ -24,7 +24,7 @@ class TestTipoCostruzioneViewSet:
 
     def test_list_tipo_costruzione(self, client, tipo_costruzione):
         """Test per il recupero della lista di Tipi di Costruzione."""
-        url = reverse('tipo-costruzione-list')
+        url = reverse('tipocostruzione-list')
         response = client.get(url, format='json')
 
         assert response.status_code == status.HTTP_200_OK
@@ -33,7 +33,7 @@ class TestTipoCostruzioneViewSet:
 
     def test_retrieve_tipo_costruzione(self, client, tipo_costruzione):
         """Test per il dettaglio di un singolo TipoCostruzione."""
-        url = reverse('tipo-costruzione-detail', args=[tipo_costruzione.id])
+        url = reverse('tipocostruzione-detail', args=[tipo_costruzione.id])
         response = client.get(url, format='json')
 
         assert response.status_code == status.HTTP_200_OK
@@ -41,9 +41,9 @@ class TestTipoCostruzioneViewSet:
 
     def test_update_tipo_costruzione(self, client, tipo_costruzione):
         """Test per l'aggiornamento di un TipoCostruzione."""
-        url = reverse('tipo-costruzione-detail', args=[tipo_costruzione.id])
+        url = reverse('tipocostruzione-detail', args=[tipo_costruzione.id])
         updated_data = {"codice": "TC01", "nome": "Costruzione Aggiornata"}
-        response = client.put(url, updated_data, format='json')
+        response = client.patch(url, updated_data, format='json')
 
         assert response.status_code == status.HTTP_200_OK
         tipo_costruzione.refresh_from_db()
@@ -51,7 +51,7 @@ class TestTipoCostruzioneViewSet:
 
     def test_delete_tipo_costruzione(self, client, tipo_costruzione):
         """Test per l'eliminazione di un TipoCostruzione."""
-        url = reverse('tipo-costruzione-detail', args=[tipo_costruzione.id])
+        url = reverse('tipocostruzione-detail', args=[tipo_costruzione.id])
         response = client.delete(url, format='json')
 
         assert response.status_code == status.HTTP_204_NO_CONTENT
@@ -102,7 +102,7 @@ class TestFascicoloViewSet:
             "costruttore": "Impresa SRL",
             "note": "Fascicolo aggiornato"
         }
-        response = client.put(url, updated_data, format='json')
+        response = client.patch(url, updated_data, format='json')
 
         assert response.status_code == status.HTTP_200_OK
         fascicolo.refresh_from_db()
@@ -159,7 +159,7 @@ class TestDocumentoViewSet:
             "numero": 5,
             "note": "Documento aggiornato"
         }
-        response = client.put(url, updated_data, format='json')
+        response = client.patch(url, updated_data, format='json')
 
         assert response.status_code == status.HTTP_200_OK
         documento.refresh_from_db()
@@ -209,9 +209,9 @@ class TestSubalternoViewSet:
         url = reverse('subalterno-detail', args=[subalterno.id])
         updated_data = {
             "sub": "SUB02",
-            "fascicolo": fascicolo
+            "fascicolo": fascicolo.id
         }
-        response = client.put(url, updated_data, format='json')
+        response = client.patch(url, updated_data, format='json')
 
         assert response.status_code == status.HTTP_200_OK
         subalterno.refresh_from_db()
@@ -260,7 +260,7 @@ class TestPraticaViewSet:
         updated_data = {
             "note": "Pratica aggiornata",
         }
-        response = client.put(url, updated_data, format='json')
+        response = client.patch(url, updated_data, format='json')
 
         assert response.status_code == status.HTTP_200_OK
         pratica.refresh_from_db()
@@ -311,7 +311,7 @@ class TestTipoDocumentoViewSet:
             "codice": "DOC02",
             "nome": "Documento Modificato"
         }
-        response = client.put(url, updated_data, format='json')
+        response = client.patch(url, updated_data, format='json')
 
         assert response.status_code == status.HTTP_200_OK
         tipo_documento.refresh_from_db()

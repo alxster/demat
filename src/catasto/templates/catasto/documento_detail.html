@@ -1,0 +1,163 @@
+{% extends 'catasto/base.html' %}
+
+{% block title %}Dettagli Documento{% endblock %}
+
+{% block content %}
+<div class="card">
+    <div class="card-header d-flex justify-content-between align-items-center">
+        <h1>Dettagli Documento</h1>
+        <div>
+            <a href="{% url 'catasto:documento-update' object.id %}" class="btn btn-warning">Modifica</a>
+            <a href="{% url 'catasto:documento-delete' object.id %}" class="btn btn-danger">Elimina</a>
+            <a href="{% url 'catasto:documento-list' %}" class="btn btn-secondary">Torna alla lista</a>
+        </div>
+    </div>
+    <div class="card-body">
+        <dl class="row">
+            <dt class="col-sm-3">Tipo</dt>
+            <dd class="col-sm-9">
+                <a href="{% url 'catasto:tipodocumento-detail' object.tipo.id %}">{{ object.tipo }}</a>
+            </dd>
+            
+            <dt class="col-sm-3">File</dt>
+            <dd class="col-sm-9">
+                {% if object.file %}
+                <a href="{{ object.file.url }}" target="_blank">{{ object.file.name }}</a>
+                {% else %}
+                --
+                {% endif %}
+            </dd>
+            
+            <dt class="col-sm-3">Numero</dt>
+            <dd class="col-sm-9">{{ object.numero|default:"--" }}</dd>
+            
+            <dt class="col-sm-3">Numero Progressivo</dt>
+            <dd class="col-sm-9">{{ object.numero_progressivo|default:"--" }}</dd>
+            
+            <dt class="col-sm-3">Data</dt>
+            <dd class="col-sm-9">{{ object.data|default:"--" }}</dd>
+            
+            <dt class="col-sm-3">Approvato</dt>
+            <dd class="col-sm-9">
+                {% if object.approvato %}
+                <span class="badge bg-success">Sì</span>
+                {% else %}
+                <span class="badge bg-danger">No</span>
+                {% endif %}
+            </dd>
+            
+            <dt class="col-sm-3">Data Approvazione</dt>
+            <dd class="col-sm-9">{{ object.data_approvazione|default:"--" }}</dd>
+            
+            <dt class="col-sm-3">Numero Protocollo</dt>
+            <dd class="col-sm-9">{{ object.numero_protocollo|default:"--" }}</dd>
+            
+            <dt class="col-sm-3">Numero Protocollo Generale</dt>
+            <dd class="col-sm-9">{{ object.numero_protocollo_generale|default:"--" }}</dd>
+            
+            <dt class="col-sm-3">Numero Protocollo Settore</dt>
+            <dd class="col-sm-9">{{ object.numero_protocollo_settore|default:"--" }}</dd>
+            
+            <dt class="col-sm-3">Richiedente</dt>
+            <dd class="col-sm-9">{{ object.richiedente|default:"--" }}</dd>
+            
+            <dt class="col-sm-3">Destinatario</dt>
+            <dd class="col-sm-9">{{ object.destinatario|default:"--" }}</dd>
+            
+            <dt class="col-sm-3">Note</dt>
+            <dd class="col-sm-9">{{ object.note|default:"--" }}</dd>
+            
+            <dt class="col-sm-3">Trascrizione</dt>
+            <dd class="col-sm-9">{{ object.trascrizione|default:"--" }}</dd>
+        </dl>
+        
+        <h3 class="mt-4">Fascicoli</h3>
+        <div class="table-responsive">
+            <table class="table table-striped">
+                <thead>
+                    <tr>
+                        <th>Foglio</th>
+                        <th>Particella</th>
+                        <th>Tipo</th>
+                        <th>Azioni</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for fascicolo in object.fascicolo.all %}
+                    <tr>
+                        <td>{{ fascicolo.foglio }}</td>
+                        <td>{{ fascicolo.particella }}</td>
+                        <td>{{ fascicolo.tipo }}</td>
+                        <td>
+                            <a href="{% url 'catasto:fascicolo-detail' fascicolo.id %}" class="btn btn-sm btn-info">Dettagli</a>
+                        </td>
+                    </tr>
+                    {% empty %}
+                    <tr>
+                        <td colspan="4" class="text-center">Nessun fascicolo associato.</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+        
+        <h3 class="mt-4">Subalterni</h3>
+        <div class="table-responsive">
+            <table class="table table-striped">
+                <thead>
+                    <tr>
+                        <th>Fascicolo</th>
+                        <th>Sub</th>
+                        <th>Azioni</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for subalterno in object.subalterni.all %}
+                    <tr>
+                        <td>{{ subalterno.fascicolo }}</td>
+                        <td>{{ subalterno.sub }}</td>
+                        <td>
+                            <a href="{% url 'catasto:subalterno-detail' subalterno.id %}" class="btn btn-sm btn-info">Dettagli</a>
+                        </td>
+                    </tr>
+                    {% empty %}
+                    <tr>
+                        <td colspan="3" class="text-center">Nessun subalterno associato.</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+        
+        <h3 class="mt-4">Pratiche</h3>
+        <div class="table-responsive">
+            <table class="table table-striped">
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Fascicolo</th>
+                        <th>Subalterno</th>
+                        <th>Azioni</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for pratica in object.pratiche.all %}
+                    <tr>
+                        <td>{{ pratica.id }}</td>
+                        <td>{{ pratica.fascicolo }}</td>
+                        <td>{{ pratica.subalterno|default:"--" }}</td>
+                        <td>
+                            <a href="{% url 'catasto:pratica-detail' pratica.id %}" class="btn btn-sm btn-info">Dettagli</a>
+                        </td>
+                    </tr>
+                    {% empty %}
+                    <tr>
+                        <td colspan="4" class="text-center">Nessuna pratica associata.</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+{% endblock %}

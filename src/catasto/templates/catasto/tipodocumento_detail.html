@@ -1,0 +1,55 @@
+{% extends 'catasto/base.html' %}
+
+{% block title %}Dettagli Tipo Documento{% endblock %}
+
+{% block content %}
+<div class="card">
+    <div class="card-header d-flex justify-content-between align-items-center">
+        <h1>Dettagli Tipo Documento</h1>
+        <div>
+            <a href="{% url 'catasto:tipodocumento-update' object.id %}" class="btn btn-warning">Modifica</a>
+            <a href="{% url 'catasto:tipodocumento-delete' object.id %}" class="btn btn-danger">Elimina</a>
+            <a href="{% url 'catasto:tipodocumento-list' %}" class="btn btn-secondary">Torna alla lista</a>
+        </div>
+    </div>
+    <div class="card-body">
+        <dl class="row">
+            <dt class="col-sm-3">Codice</dt>
+            <dd class="col-sm-9">{{ object.codice }}</dd>
+            
+            <dt class="col-sm-3">Nome</dt>
+            <dd class="col-sm-9">{{ object.nome }}</dd>
+        </dl>
+        
+        <h3 class="mt-4">Documenti</h3>
+        <div class="table-responsive">
+            <table class="table table-striped">
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Numero</th>
+                        <th>Data</th>
+                        <th>Azioni</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for documento in object.documento_set.all %}
+                    <tr>
+                        <td>{{ documento.id }}</td>
+                        <td>{{ documento.numero|default:"--" }}</td>
+                        <td>{{ documento.data|default:"--" }}</td>
+                        <td>
+                            <a href="{% url 'catasto:documento-detail' documento.id %}" class="btn btn-sm btn-info">Dettagli</a>
+                        </td>
+                    </tr>
+                    {% empty %}
+                    <tr>
+                        <td colspan="4" class="text-center">Nessun documento associato.</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+{% endblock %}

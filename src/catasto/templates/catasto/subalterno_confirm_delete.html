@@ -1,0 +1,23 @@
+{% extends 'catasto/base.html' %}
+
+{% block title %}Elimina Subalterno{% endblock %}
+
+{% block content %}
+<div class="card">
+    <div class="card-header">
+        <h1>Elimina Subalterno</h1>
+    </div>
+    <div class="card-body">
+        <p class="alert alert-danger">
+            Sei sicuro di voler eliminare il subalterno "{{ object }}"?
+        </p>
+        <form method="post">
+            {% csrf_token %}
+            <div class="d-flex justify-content-between">
+                <button type="submit" class="btn btn-danger">Elimina</button>
+                <a href="{% url 'subalterno-list' %}" class="btn btn-secondary">Annulla</a>
+            </div>
+        </form>
+    </div>
+</div>
+{% endblock %}

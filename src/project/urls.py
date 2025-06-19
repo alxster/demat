@@ -16,11 +16,15 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path, include
+from django.views.generic import RedirectView
 from drf_spectacular.views import SpectacularAPIView, SpectacularRedocView, SpectacularSwaggerView
 
 urlpatterns = [
+    path('', RedirectView.as_view(url='/catasto/', permanent=False), name='home'),
     path('admin/', admin.site.urls),
-    path('api/', include('catasto.urls')),
+    path('api/', include('catasto.api_urls')),
+    # Namespace the catasto URLs to avoid name clashes and enable explicit reversing
+    path('catasto/', include('catasto.urls', namespace='catasto')),
     path('api/schema/', SpectacularAPIView.as_view(), name='schema'),
     # Optional UI:
     path('api/schema/swagger-ui/', SpectacularSwaggerView.as_view(url_name='schema'), name='swagger-ui'),

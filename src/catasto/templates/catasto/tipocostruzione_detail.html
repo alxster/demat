@@ -1,0 +1,25 @@
+{% extends 'catasto/base.html' %}
+
+{% block title %}Dettagli Tipo Costruzione{% endblock %}
+
+{% block content %}
+<div class="card">
+    <div class="card-header d-flex justify-content-between align-items-center">
+        <h1>Dettagli Tipo Costruzione</h1>
+        <div>
+            <a href="{% url 'catasto:tipocostruzione-update' object.id %}" class="btn btn-warning">Modifica</a>
+            <a href="{% url 'catasto:tipocostruzione-delete' object.id %}" class="btn btn-danger">Elimina</a>
+            <a href="{% url 'catasto:tipocostruzione-list' %}" class="btn btn-secondary">Torna alla lista</a>
+        </div>
+    </div>
+    <div class="card-body">
+        <dl class="row">
+            <dt class="col-sm-3">Codice</dt>
+            <dd class="col-sm-9">{{ object.codice }}</dd>
+            
+            <dt class="col-sm-3">Nome</dt>
+            <dd class="col-sm-9">{{ object.nome }}</dd>
+        </dl>
+    </div>
+</div>
+{% endblock %}

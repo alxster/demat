@@ -3,7 +3,7 @@ from .models import TipoCostruzione, Fascicolo, TipoDocumento, Documento, Subalt
 
 
 class DocumentiInlineFascicolo(admin.TabularInline):
-    model = Documento.fascicolo.through
+    model = Documento.fascicoli.through
     extra = 1
 
 
@@ -63,5 +63,7 @@ class SubalternoAdmin(admin.ModelAdmin):
 
 @admin.register(Pratica)
 class PraticaAdmin(admin.ModelAdmin):
-    list_display = ('note', )
+    list_display = ('fascicolo', 'subalterno', 'note')
+    list_filter = ('fascicolo',)
+    search_fields = ('note',)
     inlines = (DocumentiInlinePratica,)

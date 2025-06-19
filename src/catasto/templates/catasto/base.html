@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}Catasto{% endblock %}</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        body {
+            padding-top: 20px;
+            padding-bottom: 20px;
+        }
+        .navbar {
+            margin-bottom: 20px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <nav class="navbar navbar-expand-lg navbar-light bg-light">
+            <div class="container-fluid">
+                <a class="navbar-brand" href="{% url 'home' %}">Catasto</a>
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="collapse navbar-collapse" id="navbarNav">
+                    <ul class="navbar-nav">
+                        <li class="nav-item">
+                            <a class="nav-link" href="{% url 'catasto:tipocostruzione-list' %}">Tipi Costruzione</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="{% url 'catasto:fascicolo-list' %}">Fascicoli</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="{% url 'catasto:subalterno-list' %}">Subalterni</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="{% url 'catasto:pratica-list' %}">Pratiche</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="{% url 'catasto:tipodocumento-list' %}">Tipi Documento</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="{% url 'catasto:documento-list' %}">Documenti</a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </nav>
+
+        <div class="content">
+            {% block content %}{% endblock %}
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

@@ -1,0 +1,43 @@
+{% extends 'catasto/base.html' %}
+
+{% block title %}Subalterni{% endblock %}
+
+{% block content %}
+<div class="d-flex justify-content-between align-items-center mb-4">
+    <h1>Subalterni</h1>
+    <a href="{% url 'catasto:subalterno-create' %}" class="btn btn-primary">Nuovo Subalterno</a>
+</div>
+
+<div class="table-responsive">
+    <table class="table table-striped table-hover">
+        <thead>
+            <tr>
+                <th>Fascicolo</th>
+                <th>Sub</th>
+                <th>Note</th>
+                <th>Azioni</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for subalterno in subalterni %}
+            <tr>
+                <td>{{ subalterno.fascicolo }}</td>
+                <td>{{ subalterno.sub }}</td>
+                <td>{{ subalterno.note|default:"--" }}</td>
+                <td>
+                    <div class="btn-group" role="group">
+                        <a href="{% url 'catasto:subalterno-detail' subalterno.id %}" class="btn btn-sm btn-info">Dettagli</a>
+                        <a href="{% url 'catasto:subalterno-update' subalterno.id %}" class="btn btn-sm btn-warning">Modifica</a>
+                        <a href="{% url 'catasto:subalterno-delete' subalterno.id %}" class="btn btn-sm btn-danger">Elimina</a>
+                    </div>
+                </td>
+            </tr>
+            {% empty %}
+            <tr>
+                <td colspan="4" class="text-center">Nessun subalterno trovato.</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% endblock %}

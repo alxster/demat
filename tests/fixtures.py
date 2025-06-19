@@ -63,7 +63,7 @@ def documento(tipo_documento):
 def subalterno_data(fascicolo):
     return {
         "sub": "SUB01",
-        "fascicolo": "fascicolo"
+        "fascicolo": fascicolo.id,
     }
 
 @pytest.fixture
@@ -72,11 +72,12 @@ def subalterno(fascicolo):
 
 
 @pytest.fixture
-def pratica_data():
+def pratica_data(fascicolo):
     return {
+        "fascicolo": fascicolo.id,
         "note": "Pratica di prova",
     }
 
 @pytest.fixture
-def pratica():
-    return Pratica.objects.create(note="Pratica già esistente")
+def pratica(fascicolo):
+    return Pratica.objects.create(fascicolo=fascicolo, note="Pratica già esistente")

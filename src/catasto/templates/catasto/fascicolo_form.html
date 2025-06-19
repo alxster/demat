@@ -1,0 +1,95 @@
+{% extends 'catasto/base.html' %}
+
+{% block title %}
+{% if object %}Modifica Fascicolo{% else %}Nuovo Fascicolo{% endif %}
+{% endblock %}
+
+{% block content %}
+<div class="card">
+    <div class="card-header">
+        <h1>{% if object %}Modifica Fascicolo{% else %}Nuovo Fascicolo{% endif %}</h1>
+    </div>
+    <div class="card-body">
+        <form method="post">
+            {% csrf_token %}
+            
+            <div class="mb-3">
+                <label for="{{ form.foglio.id_for_label }}" class="form-label">Foglio</label>
+                {{ form.foglio }}
+                {% if form.foglio.errors %}
+                <div class="text-danger">
+                    {% for error in form.foglio.errors %}
+                    {{ error }}
+                    {% endfor %}
+                </div>
+                {% endif %}
+            </div>
+            
+            <div class="mb-3">
+                <label for="{{ form.particella.id_for_label }}" class="form-label">Particella</label>
+                {{ form.particella }}
+                {% if form.particella.errors %}
+                <div class="text-danger">
+                    {% for error in form.particella.errors %}
+                    {{ error }}
+                    {% endfor %}
+                </div>
+                {% endif %}
+            </div>
+            
+            <div class="mb-3">
+                <label for="{{ form.tipo.id_for_label }}" class="form-label">Tipo Costruzione</label>
+                {{ form.tipo }}
+                {% if form.tipo.errors %}
+                <div class="text-danger">
+                    {% for error in form.tipo.errors %}
+                    {{ error }}
+                    {% endfor %}
+                </div>
+                {% endif %}
+            </div>
+            
+            <div class="mb-3">
+                <label for="{{ form.indirizzo.id_for_label }}" class="form-label">Indirizzo</label>
+                {{ form.indirizzo }}
+                {% if form.indirizzo.errors %}
+                <div class="text-danger">
+                    {% for error in form.indirizzo.errors %}
+                    {{ error }}
+                    {% endfor %}
+                </div>
+                {% endif %}
+            </div>
+            
+            <div class="mb-3">
+                <label for="{{ form.costruttore.id_for_label }}" class="form-label">Costruttore</label>
+                {{ form.costruttore }}
+                {% if form.costruttore.errors %}
+                <div class="text-danger">
+                    {% for error in form.costruttore.errors %}
+                    {{ error }}
+                    {% endfor %}
+                </div>
+                {% endif %}
+            </div>
+            
+            <div class="mb-3">
+                <label for="{{ form.note.id_for_label }}" class="form-label">Note</label>
+                {{ form.note }}
+                {% if form.note.errors %}
+                <div class="text-danger">
+                    {% for error in form.note.errors %}
+                    {{ error }}
+                    {% endfor %}
+                </div>
+                {% endif %}
+            </div>
+            
+            <div class="d-flex justify-content-between">
+                <button type="submit" class="btn btn-primary">Salva</button>
+                <a href="{% url 'catasto:fascicolo-list' %}" class="btn btn-secondary">Annulla</a>
+            </div>
+        </form>
+    </div>
+</div>
+{% endblock %}

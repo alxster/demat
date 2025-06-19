@@ -1,0 +1,86 @@
+{% extends 'catasto/base.html' %}
+
+{% block title %}Home - Catasto{% endblock %}
+
+{% block content %}
+<div class="jumbotron">
+    <h1 class="display-4">Benvenuto nel Sistema di Gestione Catasto</h1>
+    <p class="lead">Questo sistema permette di gestire i dati catastali in modo semplice ed efficiente.</p>
+    <hr class="my-4">
+    <p>Seleziona una delle seguenti opzioni per iniziare:</p>
+</div>
+
+<div class="row">
+    <div class="col-md-4 mb-4">
+        <div class="card">
+            <div class="card-body">
+                <h5 class="card-title">Tipi Costruzione</h5>
+                <p class="card-text">Gestisci i tipi di costruzione disponibili nel sistema.</p>
+                <a href="{% url 'catasto:tipocostruzione-list' %}" class="btn btn-primary">Vai ai Tipi Costruzione</a>
+            </div>
+        </div>
+    </div>
+    
+    <div class="col-md-4 mb-4">
+        <div class="card">
+            <div class="card-body">
+                <h5 class="card-title">Fascicoli</h5>
+                <p class="card-text">Gestisci i fascicoli catastali con i relativi dati.</p>
+                <a href="{% url 'catasto:fascicolo-list' %}" class="btn btn-primary">Vai ai Fascicoli</a>
+            </div>
+        </div>
+    </div>
+    
+    <div class="col-md-4 mb-4">
+        <div class="card">
+            <div class="card-body">
+                <h5 class="card-title">Subalterni</h5>
+                <p class="card-text">Gestisci i subalterni associati ai fascicoli.</p>
+                <a href="{% url 'catasto:subalterno-list' %}" class="btn btn-primary">Vai ai Subalterni</a>
+            </div>
+        </div>
+    </div>
+    
+    <div class="col-md-4 mb-4">
+        <div class="card">
+            <div class="card-body">
+                <h5 class="card-title">Pratiche</h5>
+                <p class="card-text">Gestisci le pratiche associate ai fascicoli e subalterni.</p>
+                <a href="{% url 'catasto:pratica-list' %}" class="btn btn-primary">Vai alle Pratiche</a>
+            </div>
+        </div>
+    </div>
+    
+    <div class="col-md-4 mb-4">
+        <div class="card">
+            <div class="card-body">
+                <h5 class="card-title">Tipi Documento</h5>
+                <p class="card-text">Gestisci i tipi di documento disponibili nel sistema.</p>
+                <a href="{% url 'catasto:tipodocumento-list' %}" class="btn btn-primary">Vai ai Tipi Documento</a>
+            </div>
+        </div>
+    </div>
+    
+    <div class="col-md-4 mb-4">
+        <div class="card">
+            <div class="card-body">
+                <h5 class="card-title">Documenti</h5>
+                <p class="card-text">Gestisci i documenti associati alle pratiche e ai fascicoli.</p>
+                <a href="{% url 'catasto:documento-list' %}" class="btn btn-primary">Vai ai Documenti</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="mt-4">
+    <div class="card">
+        <div class="card-body">
+            <h5 class="card-title">API REST</h5>
+            <p class="card-text">Accedi alle API REST per l'integrazione con altri sistemi.</p>
+            <a href="/api/" class="btn btn-info">Vai alle API</a>
+            <a href="/api/schema/swagger-ui/" class="btn btn-info">Documentazione API (Swagger)</a>
+            <a href="/api/schema/redoc/" class="btn btn-info">Documentazione API (ReDoc)</a>
+        </div>
+    </div>
+</div>
+{% endblock %}

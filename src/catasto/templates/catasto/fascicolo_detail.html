@@ -1,0 +1,123 @@
+{% extends 'catasto/base.html' %}
+
+{% block title %}Dettagli Fascicolo{% endblock %}
+
+{% block content %}
+<div class="card">
+    <div class="card-header d-flex justify-content-between align-items-center">
+        <h1>Dettagli Fascicolo</h1>
+        <div>
+            <a href="{% url 'catasto:fascicolo-update' object.id %}" class="btn btn-warning">Modifica</a>
+            <a href="{% url 'catasto:fascicolo-delete' object.id %}" class="btn btn-danger">Elimina</a>
+            <a href="{% url 'catasto:fascicolo-list' %}" class="btn btn-secondary">Torna alla lista</a>
+        </div>
+    </div>
+    <div class="card-body">
+        <dl class="row">
+            <dt class="col-sm-3">Foglio</dt>
+            <dd class="col-sm-9">{{ object.foglio }}</dd>
+            
+            <dt class="col-sm-3">Particella</dt>
+            <dd class="col-sm-9">{{ object.particella }}</dd>
+            
+            <dt class="col-sm-3">Tipo</dt>
+            <dd class="col-sm-9">{{ object.tipo }}</dd>
+            
+            <dt class="col-sm-3">Indirizzo</dt>
+            <dd class="col-sm-9">{{ object.indirizzo|default:"--" }}</dd>
+            
+            <dt class="col-sm-3">Costruttore</dt>
+            <dd class="col-sm-9">{{ object.costruttore|default:"--" }}</dd>
+            
+            <dt class="col-sm-3">Note</dt>
+            <dd class="col-sm-9">{{ object.note|default:"--" }}</dd>
+        </dl>
+        
+        <h3 class="mt-4">Subalterni</h3>
+        <div class="table-responsive">
+            <table class="table table-striped">
+                <thead>
+                    <tr>
+                        <th>Sub</th>
+                        <th>Note</th>
+                        <th>Azioni</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for subalterno in object.subalterno_set.all %}
+                    <tr>
+                        <td>{{ subalterno.sub }}</td>
+                        <td>{{ subalterno.note|default:"--" }}</td>
+                        <td>
+                            <a href="{% url 'catasto:subalterno-detail' subalterno.id %}" class="btn btn-sm btn-info">Dettagli</a>
+                        </td>
+                    </tr>
+                    {% empty %}
+                    <tr>
+                        <td colspan="3" class="text-center">Nessun subalterno associato.</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+        
+        <h3 class="mt-4">Pratiche</h3>
+        <div class="table-responsive">
+            <table class="table table-striped">
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Note</th>
+                        <th>Azioni</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for pratica in object.pratiche.all %}
+                    <tr>
+                        <td>{{ pratica.id }}</td>
+                        <td>{{ pratica.note|default:"--" }}</td>
+                        <td>
+                            <a href="{% url 'catasto:pratica-detail' pratica.id %}" class="btn btn-sm btn-info">Dettagli</a>
+                        </td>
+                    </tr>
+                    {% empty %}
+                    <tr>
+                        <td colspan="3" class="text-center">Nessuna pratica associata.</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+        
+        <h3 class="mt-4">Documenti</h3>
+        <div class="table-responsive">
+            <table class="table table-striped">
+                <thead>
+                    <tr>
+                        <th>Tipo</th>
+                        <th>Numero</th>
+                        <th>Data</th>
+                        <th>Azioni</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for documento in object.documenti.all %}
+                    <tr>
+                        <td>{{ documento.tipo }}</td>
+                        <td>{{ documento.numero|default:"--" }}</td>
+                        <td>{{ documento.data|default:"--" }}</td>
+                        <td>
+                            <a href="{% url 'catasto:documento-detail' documento.id %}" class="btn btn-sm btn-info">Dettagli</a>
+                        </td>
+                    </tr>
+                    {% empty %}
+                    <tr>
+                        <td colspan="4" class="text-center">Nessun documento associato.</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+{% endblock %}

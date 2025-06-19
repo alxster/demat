@@ -1,0 +1,59 @@
+{% extends 'catasto/base.html' %}
+
+{% block title %}
+{% if object %}Modifica Subalterno{% else %}Nuovo Subalterno{% endif %}
+{% endblock %}
+
+{% block content %}
+<div class="card">
+    <div class="card-header">
+        <h1>{% if object %}Modifica Subalterno{% else %}Nuovo Subalterno{% endif %}</h1>
+    </div>
+    <div class="card-body">
+        <form method="post">
+            {% csrf_token %}
+            
+            <div class="mb-3">
+                <label for="{{ form.fascicolo.id_for_label }}" class="form-label">Fascicolo</label>
+                {{ form.fascicolo }}
+                {% if form.fascicolo.errors %}
+                <div class="text-danger">
+                    {% for error in form.fascicolo.errors %}
+                    {{ error }}
+                    {% endfor %}
+                </div>
+                {% endif %}
+            </div>
+            
+            <div class="mb-3">
+                <label for="{{ form.sub.id_for_label }}" class="form-label">Sub</label>
+                {{ form.sub }}
+                {% if form.sub.errors %}
+                <div class="text-danger">
+                    {% for error in form.sub.errors %}
+                    {{ error }}
+                    {% endfor %}
+                </div>
+                {% endif %}
+            </div>
+            
+            <div class="mb-3">
+                <label for="{{ form.note.id_for_label }}" class="form-label">Note</label>
+                {{ form.note }}
+                {% if form.note.errors %}
+                <div class="text-danger">
+                    {% for error in form.note.errors %}
+                    {{ error }}
+                    {% endfor %}
+                </div>
+                {% endif %}
+            </div>
+            
+            <div class="d-flex justify-content-between">
+                <button type="submit" class="btn btn-primary">Salva</button>
+                <a href="{% url 'subalterno-list' %}" class="btn btn-secondary">Annulla</a>
+            </div>
+        </form>
+    </div>
+</div>
+{% endblock %}
